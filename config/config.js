@@ -5,7 +5,9 @@ var conn = mysql.createPool({
   host: "localhost",
   user: "root",
   password: "mirim2",
-  database: "carrying"
+  database: "carrying",
+  charset: "utf-8",
+  debug: false
 });
 
 module.exports = conn;
