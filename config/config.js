@@ -1,13 +1,10 @@
-var mysql = require("mysql");
+const mysql = require("mysql");
 
-var conn = mysql.createPool({
-  connectionLimit: 10,
+const dbConfig = {
   host: "localhost",
   user: "root",
-  password: "mirim2",
-  database: "carrying",
-  charset: "utf-8",
-  debug: false
-});
+  password: "1234",
+  database: "carrying"
+};
 
-module.exports = conn;
+module.exports = dbConfig;
