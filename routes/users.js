@@ -3,7 +3,7 @@ var router = express.Router();
 var db = require("../db");
 
 /* GET users listing. */
-router.get("/showUser", (req, res) => {
+router.get("/readUser", (req, res) => {
   var uid = "swiVnf2lVWg3KK3nEN9kL62xHsC3" || req.query.uid;
 
   db((err, conn) => {
