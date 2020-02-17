@@ -18,8 +18,22 @@ pool.on("release", function(connection) {
 });
 
 const getConn = function(callback) {
-  pool.getConnection(function(err, connection) {
-    callback(err, connection);
+  pool.getConnection(function(err, conn) {
+    let createUser =
+      "create table if not exists user (" +
+      "num int primary key auto_increment, " +
+      "nickname varchar(20) not null, " +
+      "uid varchar(35) not null, " +
+      "gender int not null);";
+
+    conn.query(createUser, function(err, results, fields) {
+      if (err) {
+        throw err;
+      }
+    });
+    console.log("create table success");
+    callback(err, conn);
+    conn.release(); // 연결세션 반환.
   });
 };
 
