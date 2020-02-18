@@ -3,15 +3,15 @@ var router = express.Router();
 var db = require("../db");
 
 /* GET users listing. */
-router.get("/readUser/:uid", (req, res) => {
+router.get("/readUser", (req, res) => {
   var uid = req.params.uid;
 
   db((err, conn) => {
     if (err) {
       throw err;
     }
-    var sql = "SELECT * FROM user where uid = ?";
-    conn.query(sql, uid, (err, rows) => {
+    var sql = "SELECT * FROM user";
+    conn.query(sql, (err, rows) => {
       if (err) {
         throw err;
       }
