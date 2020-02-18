@@ -2,8 +2,8 @@ var express = require("express");
 var router = express.Router();
 var db = require("../db");
 
-/* GET users listing. */
-router.get("/:uid", (req, res) => {
+//read User
+router.get("/read/:uid", (req, res) => {
   var uid = req.params.uid;
 
   db((err, conn) => {
@@ -15,17 +15,18 @@ router.get("/:uid", (req, res) => {
       if (err) {
         throw err;
       }
-      console.log(JSON.stringify(rows)); // 결과는 rows에 담아 전송
-      res.end();
+      console.log(JSON.stringify(rows));
+      console.log("what");
     });
   });
+  res.end();
 });
 
 router.get("/addUser", (req, res) => {
   res.render("post", { title: "INSERT", postUrl: "addUser" });
 });
 
-router.post("/addUser", function(req, res) {
+router.post("/addUser/:nickname/:uid/:gender", function(req, res) {
   const nickname = req.query.nickname;
   const uid = req.query.uid;
   const gender = req.query.gender;
