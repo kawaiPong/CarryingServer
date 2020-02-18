@@ -30,8 +30,8 @@ const getConn = function(callback) {
       if (err) {
         throw err;
       }
+      console.log("create table success");
     });
-    console.log("create table success");
     callback(err, conn);
     conn.release(); // 연결세션 반환.
   });

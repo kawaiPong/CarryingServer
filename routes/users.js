@@ -3,19 +3,19 @@ var router = express.Router();
 var db = require("../db");
 
 /* GET users listing. */
-router.get("/readUser", (req, res) => {
-  var uid = "swiVnf2lVWg3KK3nEN9kL62xHsC3" || req.query.uid;
+router.get("/readUser/:uid", (req, res) => {
+  var uid = req.params.uid;
 
   db((err, conn) => {
     if (err) {
       throw err;
     }
-    var sql = "SELECT * FROM user where uid = ?";
-    conn.query(sql, uid, (err, rows) => {
+    var sql = "SELECT * FROM user where num = 1";
+    conn.query(sql, (err, rows) => {
       if (err) {
         throw err;
       }
-      return res.json({ data: rows }); // 결과는 rows에 담아 전송
+      return JSON.stringify(rows); // 결과는 rows에 담아 전송
     });
   });
 });
@@ -25,9 +25,9 @@ router.get("/addUser", (req, res) => {
 });
 
 router.post("/addUser", function(req, res) {
-  const nickname = req.query.nickname || req.body.nickname;
-  const uid = req.query.uid || req.body.uid;
-  const gender = req.query.gender || req.body.gender;
+  const nickname = req.query.nickname;
+  const uid = req.query.uid;
+  const gender = req.query.gender;
 
   console.log(nickname + " " + uid + " " + gender);
   // const nickname = "박소원";
