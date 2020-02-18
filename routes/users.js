@@ -20,13 +20,19 @@ router.get("/readUser", (req, res) => {
   });
 });
 
-router.get("/addUser", function(req, res) {
-  // const nickname = res.query.nickname;
-  // const uid = req.query.uid;
-  // const gender = req.query.gender;
-  const nickname = "박소원";
-  const uid = "swiVnf2lVWg3KK3nEN9kL62xHsasd";
-  const gender = 0;
+router.get("/addUser", (req, res) => {
+  res.render("post", { title: "INSERT", postUrl: "addUser" });
+});
+
+router.post("/addUser", function(req, res) {
+  const nickname = req.query.nickname || req.body.nickname;
+  const uid = req.query.uid || req.body.uid;
+  const gender = req.query.gender || req.body.gender;
+
+  console.log(nickname + " " + uid + " " + gender);
+  // const nickname = "박소원";
+  // const uid = "swiVnf2lVWg3KK3nEN9kL62xHsasd";
+  // const gender = 0;
 
   var insertData = {
     nickname: nickname,
@@ -44,15 +50,19 @@ router.get("/addUser", function(req, res) {
         throw err;
       }
       console.log("insert success");
-      return res.json({ data: result }); // 결과는 rows에 담아 전송
+      res.json({ data: result }); // 결과는 rows에 담아 전송
     });
   });
 });
 
 router.get("/updateUser", function(req, res) {
-  var nickname = "carrying";
-  var gender = 0;
-  var uid = "ㅁㄴㅇㅀ";
+  res.render("post", { title: "UPDATE", postUrl: "updateUser" });
+});
+
+router.post("/updateUser", function(req, res) {
+  const nickname = req.query.nickname || req.body.nickname;
+  const uid = req.query.uid || req.body.uid;
+  const gender = req.query.gender || req.body.gender;
 
   db((err, conn) => {
     if (err) {
@@ -70,7 +80,7 @@ router.get("/updateUser", function(req, res) {
   });
 });
 
-router.get("/deleteUser", (req, res) => {
+router.post("/deleteUser", (req, res) => {
   var uid = "ㅁㄴㅇㅀ";
   // TODO: uid 바꾸기
 

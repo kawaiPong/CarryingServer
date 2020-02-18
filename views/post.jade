@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  form(method='POST' action=postUrl)
+    label(for='nickname') Nickname:
+    input#nickname.form-control(type='text', placeholder='user nickname' name='nickname')
+    br
+    label(for='uid') UID:
+    input#uid.form-control(type='text', placeholder='UID' name='uid')
+    br
+    label(for='gender') gender:
+    input#gender.form-control(type='text', placeholder='your gender' name='gender')
+    br
+    button.btn.btn-primary(type='submit') test
