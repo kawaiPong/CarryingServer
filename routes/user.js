@@ -15,11 +15,13 @@ router.get("/read/:uid", (req, res) => {
       if (err) {
         throw err;
       }
-      console.log(JSON.stringify(rows));
-      console.log("what");
+      // console.log(JSON.stringify(rows));
+      // console.log("what");
+      res.setHeader('Content-Type', 'application/json');
+      res.end(JSON.stringify(rows[0]));
     });
   });
-  res.end();
+
 });
 
 router.get("/addUser", (req, res) => {
