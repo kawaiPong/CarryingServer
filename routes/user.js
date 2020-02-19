@@ -23,19 +23,19 @@ router.get("/readUser/:uid", (req, res) => {
   });
 });
 
-// router.get("/addUser", (req, res) => {
-//   res.render("post", {
-//     title: "INSERT",
-//     postUrl: "addUser/박소원/20200723/3"
-//   });
-// });
+router.get("/addUser", (req, res) => {
+  res.render("post", {
+    title: "INSERT",
+    postUrl: "addUser"
+  });
+});
 
-router.get("/addUser/:nickname/:uid/:email/:password/:gender", (req, res) => {
-  var nickname = req.params.nickname || req.body.nickname;
-  var uid = req.params.uid || req.body.uid;
-  var email = req.params.email || req.body.email;
-  var password = req.params.password || req.body.password;
-  var gender = req.params.gender || req.body.gender;
+router.post("/addUser", (req, res) => {
+  var nickname = req.query.nickname || req.body.nickname;
+  var uid = req.query.uid || req.body.uid;
+  var email = req.query.email || req.body.email;
+  var password = req.query.password || req.body.password;
+  var gender = req.query.gender || req.body.gender;
 
   // const nickname = "박소원";
   // const uid = "swiVnf2lVWg3KK3nEN9kL62xHsasd";
