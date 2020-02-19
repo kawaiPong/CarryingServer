@@ -23,19 +23,20 @@ router.get("/readUser/:uid", (req, res) => {
   });
 });
 
-router.get("/addUser", (req, res) => {
-  res.render("post", {
-    title: "INSERT",
-    postUrl: "addUser/박소원/20200723/3"
-  });
-});
+// router.get("/addUser", (req, res) => {
+//   res.render("post", {
+//     title: "INSERT",
+//     postUrl: "addUser/박소원/20200723/3"
+//   });
+// });
 
-router.post("/addUser/:nickname/:uid/:gender", function(req, res) {
+router.get("/addUser/:nickname/:uid/:email/:password/:gender", (req, res) => {
   var nickname = req.params.nickname || req.body.nickname;
   var uid = req.params.uid || req.body.uid;
+  var email = req.params.email || req.body.email;
+  var password = req.params.password || req.body.password;
   var gender = req.params.gender || req.body.gender;
 
-  console.log(nickname + " " + uid + " " + gender);
   // const nickname = "박소원";
   // const uid = "swiVnf2lVWg3KK3nEN9kL62xHsasd";
   // const gender = 0;
@@ -43,6 +44,8 @@ router.post("/addUser/:nickname/:uid/:gender", function(req, res) {
   var insertData = {
     nickname: nickname,
     uid: uid,
+    email: email,
+    password: password,
     gender: gender
   };
 
@@ -102,6 +105,20 @@ router.post("/deleteUser/:uid", (req, res) => {
       if (err) throw err;
       console.log("delete success");
       // return res.json({ data: result });
+      res.send(result);
+    });
+  });
+});
+
+router.get("/chNameDup/:nickname", (req, res) => {
+  var nickname = req.params.nickname;
+
+  db((err, conn) => {
+    if (err) throw err;
+
+    var sql = "select name from user where nickname = ?";
+    conn.query(sql, nickname, (err, result) => {
+      if (err) throw err;
       res.send(result);
     });
   });

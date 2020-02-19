@@ -9,8 +9,12 @@ router.get("/readPackListbySetting/:theme/:gender/:weather", (req, res) => {
   var gender = req.params.gender;
   var weather = req.params.weather;
 
-  if (theme.length != 0) const themeArr = theme.split(" ");
-  if (weather.length != 0) const weatherArr = weather.split(" ");
+  if (theme.length != 0) {
+    const themeArr = theme.split(" ");
+  }
+  if (weather.length != 0) {
+    const weatherArr = weather.split(" ");
+  }
 
   db((err, conn) => {
     if (err) throw err;
