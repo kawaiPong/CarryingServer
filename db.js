@@ -22,8 +22,10 @@ const getConn = function(callback) {
     let createUser =
       "create table if not exists user (" +
       "num int primary key auto_increment, " +
-      "nickname varchar(20) not null, " +
-      "uid varchar(35) not null, " +
+      "nickname varchar(20) not null unique, " +
+      "uid varchar(35) not null unique, " +
+      "email varchar(40) not null unique, " +
+      "password varchar(30) not null, " +
       "gender int not null);";
 
     conn.query(createUser, function(err, results, fields) {
