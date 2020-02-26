@@ -2,7 +2,7 @@ var express = require("express");
 var router = express.Router();
 var db = require("../db");
 
-//read User
+//단 한 명의 사용자를 불러올 수 있음 (프로필)
 router.get("/readUser/:uid", (req, res) => {
   var uid = req.params.uid;
 
@@ -23,23 +23,20 @@ router.get("/readUser/:uid", (req, res) => {
   });
 });
 
-router.get("/addUser", (req, res) => {
-  res.render("post", {
-    title: "INSERT",
-    postUrl: "addUser"
-  });
-});
+// router.get("/addUser", (req, res) => {
+//   res.render("post", {
+//     title: "INSERT",
+//     postUrl: "addUser"
+//   });
+// });
 
+//사용자 추가 (회원 가입)
 router.post("/addUser", (req, res) => {
   var nickname = req.query.nickname || req.body.nickname;
   var uid = req.query.uid || req.body.uid;
   var email = req.query.email || req.body.email;
   var password = req.query.password || req.body.password;
   var gender = req.query.gender || req.body.gender;
-
-  // const nickname = "박소원";
-  // const uid = "swiVnf2lVWg3KK3nEN9kL62xHsasd";
-  // const gender = 0;
 
   var insertData = {
     nickname: nickname,
@@ -64,17 +61,20 @@ router.post("/addUser", (req, res) => {
   });
 });
 
-// router.get("/updateUser", function(req, res) {
-//   res.render("post", {
-//     title: "UPDATE",
-//     postUrl: "updateUser/Carrying/20200101/3"
-//   });
-// });
+router.get("/updateUser", function(req, res) {
+  res.render("post", {
+    title: "UPDATE",
+    postUrl: "updateUser"
+  });
+});
 
-router.post("/updateUser/:nickname/:uid/:gender", function(req, res) {
-  var nickname = req.body.nickname || req.params.nickname;
-  var uid = req.body.uid || req.params.uid;
-  var gender = req.body.gender || req.params.gender;
+//회원 수정 (회원 정보 수정 ) => 이때 중복 체크 확인
+router.post("/updateUser", function(req, res) {
+  var nickname = req.body.nickname || req.query.nickname;
+  var uid = req.body.uid || req.query.uid;
+  var gender = req.body.gender || req.query.gender;
+
+  chDuplicate(uid);
 
   db((err, conn) => {
     if (err) {
@@ -93,6 +93,7 @@ router.post("/updateUser/:nickname/:uid/:gender", function(req, res) {
   });
 });
 
+//회원탈퇴
 router.post("/deleteUser/:uid", (req, res) => {
   var uid = req.params.uid;
   // TODO: uid 바꾸기
@@ -110,18 +111,33 @@ router.post("/deleteUser/:uid", (req, res) => {
   });
 });
 
-router.get("/chNameDup/:nickname", (req, res) => {
-  var nickname = req.params.nickname;
+// router.get("/chDuplicate/:nickname/:email", (req, res) => {
+//   var nickname = req.params.nickname;
+//   var email = req.params.email;
 
+//   db((err, conn) => {
+//     if (err) throw err;
+
+//     var sql = "select nickname, email from user where nickname = ?";
+//     conn.query(sql, nickname, (err, result) => {
+//       if (err) throw err;
+//       res.send(result[0]);
+//     });
+//   });
+// });
+
+const chDuplicate = uid => {
   db((err, conn) => {
     if (err) throw err;
 
-    var sql = "select name from user where nickname = ?";
-    conn.query(sql, nickname, (err, result) => {
-      if (err) throw err;
-      res.send(result);
+    var sql = "select nickname from user where uid = ?";
+    conn.query(sql, uid, (err, result) => {
+      if (err) {
+        throw err;
+        return true;
+      }
+      console.log("result : " + result[0][nickname]);
     });
   });
-});
-
+};
 module.exports = router;
