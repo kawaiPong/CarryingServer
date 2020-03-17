@@ -74,7 +74,7 @@ router.post("/updateUser", function(req, res) {
   var uid = req.body.uid || req.query.uid;
   var gender = req.body.gender || req.query.gender;
 
-  chDuplicate(uid);
+  var chNickname = chDuplicate(uid);
 
   db((err, conn) => {
     if (err) {
@@ -111,33 +111,42 @@ router.post("/deleteUser/:uid", (req, res) => {
   });
 });
 
-// router.get("/chDuplicate/:nickname/:email", (req, res) => {
-//   var nickname = req.params.nickname;
-//   var email = req.params.email;
-
-//   db((err, conn) => {
-//     if (err) throw err;
-
-//     var sql = "select nickname, email from user where nickname = ?";
-//     conn.query(sql, nickname, (err, result) => {
-//       if (err) throw err;
-//       res.send(result[0]);
-//     });
-//   });
-// });
-
-const chDuplicate = uid => {
+var chDupNickname = name => {
   db((err, conn) => {
     if (err) throw err;
 
-    var sql = "select nickname from user where uid = ?";
-    conn.query(sql, uid, (err, result) => {
+    var sql = "select nickname from user where nickname = ?";
+    conn.query(sql, name, (err, result) => {
       if (err) {
-        throw err;
-        return true;
+        return;
       }
-      console.log("result : " + result[0][nickname]);
+      if (result[0].nickname == undefined) {
+        return true;
+      } else {
+        return false;
+      }
     });
   });
 };
+
+var chDupEmail = email => {
+  db((err, conn) => {
+    if (err) throw err;
+
+    var sql = "select email from user where email = ?";
+    conn.query(sql, email, (err, result) => {
+      if (err) {
+        return;
+      }
+      if (result[0].email == undefined) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+  });
+};
+
+var findPassword = () => {};
+
 module.exports = router;
