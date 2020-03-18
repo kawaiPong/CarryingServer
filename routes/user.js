@@ -31,17 +31,9 @@ router.post("/addUser/:uid/:nickname/:email/:password/:gender", (req, res) => {
   let password = req.params.password;
   let gender = req.params.gender;
 
-  console.log("check");
-  let check = new Promise(function(resolve, reject) {
-    resolve(nickname);
-  });
-
-  check.then(nickname => {
-    chDupNickname(nickname);
-  });
-
-  console.log(check);
-  res.send(JSON.stringify({ check: `${check}` }));
+  //TODO: 중복체크
+  //중복 ID
+  //중복 EMAIL
 
   let insertData = {
     num: 0,
@@ -122,7 +114,6 @@ router.post("/updatePassword/:uid/:password", (req, res) => {
 //회원탈퇴
 router.post("/deleteUser/:uid", (req, res) => {
   let uid = req.params.uid;
-  // TODO: uid 바꾸기
 
   db((err, conn) => {
     if (err) throw err;
@@ -137,41 +128,59 @@ router.post("/deleteUser/:uid", (req, res) => {
   });
 });
 
-let chDupNickname = nickname => {
-  console.log("none");
+//비밀번호 찾기 및 변경 Activity에서 이메일이 존재하는지 확인 여부를 묻는 버튼 클릭 시
+//반환값 : {"exist" : (true of false)}
+router.get("/existEmail/:email", (req, res) => {
+  let email = req.params.email;
+
   db((err, conn) => {
     if (err) throw err;
 
-    let sql = "select count(*) as count from user where nickname = ?";
-    conn.query(sql, nickname, (err, result) => {
+    let sql = "select count(*) as count from user where email = ?";
+    conn.query(sql, email, (err, result) => {
       if (err) throw err;
       if (result[0].count > 0) {
-        return true;
+        res.send(JSON.stringify({ exist: true }));
       } else {
-        return false;
+        res.send(JSON.stringify({ exist: false }));
       }
     });
   });
-};
+});
 
-let chDupEmail = email => {
-  db((err, conn) => {
-    if (err) throw err;
+// let chDupNickname = nickname => {
+//   console.log("none");
+//   db((err, conn) => {
+//     if (err) throw err;
 
-    let sql = "select email from user where email = ?";
-    conn.query(sql, email, (err, result) => {
-      if (err) {
-        return;
-      }
-      if (result[0].email == undefined) {
-        return true;
-      } else {
-        return false;
-      }
-    });
-  });
-};
+//     let sql = "select count(*) as count from user where nickname = ?";
+//     conn.query(sql, nickname, (err, result) => {
+//       if (err) throw err;
+//       if (result[0].count > 0) {
+//         return true;
+//       } else {
+//         return false;
+//       }
+//     });
+//   });
+// };
 
-let findPassword = () => {};
+// let chDupEmail = email => {
+//   db((err, conn) => {
+//     if (err) throw err;
+
+//     let sql = "select email from user where email = ?";
+//     conn.query(sql, email, (err, result) => {
+//       if (err) {
+//         return;
+//       }
+//       if (result[0].email == undefined) {
+//         return true;
+//       } else {
+//         return false;
+//       }
+//     });
+//   });
+// };
 
 module.exports = router;

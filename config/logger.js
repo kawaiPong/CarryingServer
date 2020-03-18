@@ -1,6 +1,4 @@
-const appRoot = require("app-root-path");
 const winston = require("winston");
-const process = require("process");
 
 const { combine, timestamp, label, printf } = winston.format;
 
