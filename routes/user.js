@@ -18,7 +18,7 @@ router.get("/readUser/:uid", (req, res) => {
       // console.log(JSON.stringify(rows));
       // console.log("what");
       res.setHeader("Content-Type", "application/json");
-      res.end(JSON.stringify(rows[0]));
+      res.send(rows[0]);
     });
   });
 });
@@ -30,6 +30,8 @@ router.post("/addUser/:uid/:nickname/:email/:password/:gender", (req, res) => {
   let email = req.params.email;
   let password = req.params.password;
   let gender = req.params.gender;
+
+  console.log(nickname);
 
   //TODO: 중복체크
   //중복 ID

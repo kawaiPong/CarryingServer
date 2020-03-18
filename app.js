@@ -6,6 +6,7 @@ var logger = require("morgan");
 var indexRouter = require("./routes/index");
 var userRouter = require("./routes/user");
 var packRouter = require("./routes/packlist");
+var listRouter = require("./routes/checkList");
 
 var app = express();
 
@@ -15,12 +16,13 @@ app.set("view engine", "jade");
 
 app.use(logger("dev"));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/user", userRouter);
 app.use("/pack", packRouter);
+app.use("/list", listRouter);
 
 app.use(function(req, res, next) {
   next(createError(404));
