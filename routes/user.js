@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const db = require("../db");
+const db = require("../db/db");
 
 //단 한 명의 사용자를 불러올 수 있음 (프로필)
 router.get("/readUser/:uid", (req, res) => {

@@ -1,6 +1,6 @@
 const mysql = require("mysql");
-const config = require("./config/config");
-const logger = require("./config/logger");
+const config = require("./config");
+const logger = require("./logger");
 
 var pool = mysql.createPool(config);
 logger.info("Connection pool created.");
@@ -19,21 +19,7 @@ pool.on("release", function(connection) {
 
 const getConn = function(callback) {
   pool.getConnection(function(err, conn) {
-    let createUser =
-      "create table if not exists user (" +
-      "num int primary key auto_increment, " +
-      "nickname varchar(20) not null unique, " +
-      "uid varchar(35) not null unique, " +
-      "email varchar(40) not null unique, " +
-      "password varchar(30) not null, " +
-      "gender int not null);";
-
-    conn.query(createUser, function(err, results, fields) {
-      if (err) {
-        throw err;
-      }
-      callback(err, conn);
-    });
+    callback(err, conn);
 
     conn.release(); // 연결세션 반환.
   });

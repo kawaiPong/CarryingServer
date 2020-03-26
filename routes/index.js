@@ -1,5 +1,5 @@
 var express = require("express");
-var db_conn = require("../db");
+var db_conn = require("../db/db");
 
 const app = express();
 const router = express.Router();
