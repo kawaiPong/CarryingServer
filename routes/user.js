@@ -11,7 +11,7 @@ router.get("/readUser/:uid", (req, res) => {
     if (err) {
       throw err;
     }
-    let sql = "SELECT * FROM USER where uid = ?";
+    let sql = "SELECT * FROM user where uid = ?";
     conn.query(sql, uid, (err, rows) => {
       if (err) {
         throw err;
@@ -51,7 +51,7 @@ router.post("/addUser/:uid/:nickname/:email/:password/:gender", (req, res) => {
     if (err) {
       throw err;
     }
-    let sql = "INSERT INTO USER SET ?;";
+    let sql = "INSERT INTO user SET ?;";
     conn.query(sql, insertData, (err, result) => {
       if (err) {
         throw err;
@@ -77,7 +77,7 @@ router.post(
         throw err;
       }
       let sql =
-        "UPDATE USER SET nickname = ?, email = ?, password = ?, gender = ? WHERE uid = ?";
+        "UPDATE user SET nickname = ?, email = ?, password = ?, gender = ? WHERE uid = ?";
       conn.query(
         sql,
         [nickname, email, password, gender, uid],
@@ -103,7 +103,7 @@ router.post("/updatePassword/:uid/:password", (req, res) => {
     if (err) {
       throw err;
     }
-    let sql = "UPDATE USER SET password = ? WHERE uid = ?";
+    let sql = "UPDATE user SET password = ? WHERE uid = ?";
     conn.query(sql, [password, uid], (err, result) => {
       if (err) {
         throw err;
@@ -121,7 +121,7 @@ router.post("/deleteUser/:uid", (req, res) => {
   db((err, conn) => {
     if (err) throw err;
 
-    let sql = "DELETE FROM USER WHERE uid = ?";
+    let sql = "DELETE FROM user WHERE uid = ?";
     conn.query(sql, uid, (err, result) => {
       if (err) throw err;
       console.log("delete success");
@@ -139,7 +139,7 @@ router.get("/existEmail/:email", (req, res) => {
   db((err, conn) => {
     if (err) throw err;
 
-    let sql = "select count(*) as count from USER where email = ?";
+    let sql = "select count(*) as count from user where email = ?";
     conn.query(sql, email, (err, result) => {
       if (err) throw err;
       if (result[0].count > 0) {
@@ -156,7 +156,7 @@ router.get("/existEmail/:email", (req, res) => {
 //   db((err, conn) => {
 //     if (err) throw err;
 
-//     let sql = "select count(*) as count from USER where nickname = ?";
+//     let sql = "select count(*) as count from user where nickname = ?";
 //     conn.query(sql, nickname, (err, result) => {
 //       if (err) throw err;
 //       if (result[0].count > 0) {
@@ -172,7 +172,7 @@ router.get("/existEmail/:email", (req, res) => {
 //   db((err, conn) => {
 //     if (err) throw err;
 
-//     let sql = "select email from USER where email = ?";
+//     let sql = "select email from user where email = ?";
 //     conn.query(sql, email, (err, result) => {
 //       if (err) {
 //         return;
