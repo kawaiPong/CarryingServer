@@ -151,39 +151,4 @@ router.get("/existEmail/:email", (req, res) => {
   });
 });
 
-// let chDupNickname = nickname => {
-//   console.log("none");
-//   db((err, conn) => {
-//     if (err) throw err;
-
-//     let sql = "select count(*) as count from user where nickname = ?";
-//     conn.query(sql, nickname, (err, result) => {
-//       if (err) throw err;
-//       if (result[0].count > 0) {
-//         return true;
-//       } else {
-//         return false;
-//       }
-//     });
-//   });
-// };
-
-// let chDupEmail = email => {
-//   db((err, conn) => {
-//     if (err) throw err;
-
-//     let sql = "select email from user where email = ?";
-//     conn.query(sql, email, (err, result) => {
-//       if (err) {
-//         return;
-//       }
-//       if (result[0].email == undefined) {
-//         return true;
-//       } else {
-//         return false;
-//       }
-//     });
-//   });
-// };
-
 module.exports = router;
