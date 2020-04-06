@@ -2,6 +2,17 @@ const express = require("express");
 const db = require("../db/db");
 const router = express.Router();
 
+//모든 체크리스트를 불러옴
+/* SELECT * FROM CHECKLIST */
+//하나의 체크리스트 선택
+/* SELECT * FROM CHECKLIST WHERE NUM = ? */
+//생성된 체크리스트 저장
+/* INSERT INTO CHECKLIST VALUES (0, TITLE, TIME, THEME, ...) */
+//체크리스트 삭제
+/* DELETE * FROM CHECKLIST WHERE NUM = ? */
+//체크리스트 정보 수정
+/* UPDATE CHECKLIST SET ... = ? */
+
 router.get("/readAllList/:uid", (req, res) => {
   let uid = req.params.uid;
 
