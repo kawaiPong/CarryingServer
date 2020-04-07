@@ -2,17 +2,7 @@ const express = require("express");
 const db = require("../db/db");
 const router = express.Router();
 
-//모든 체크리스트를 불러옴
-/* SELECT * FROM CHECKLIST */
-//하나의 체크리스트 선택
-/* SELECT * FROM CHECKLIST WHERE NUM = ? */
-//생성된 체크리스트 저장
-/* INSERT INTO CHECKLIST VALUES (0, TITLE, TIME, THEME, ...) */
-//체크리스트 삭제
-/* DELETE * FROM CHECKLIST WHERE NUM = ? */
-//체크리스트 정보 수정
-/* UPDATE CHECKLIST SET ... = ? */
-
+//해당 uid를 갖고 있는 회원의 체크리스트를 불러옴
 router.get("/readAllList/:uid", (req, res) => {
   let uid = req.params.uid;
 
@@ -32,26 +22,31 @@ router.get("/readAllList/:uid", (req, res) => {
   });
 });
 
-router.get("/readSelectedList/:title", (req, res) => {
-  let num = req.params.num;
+//TODO:이름 중복 방지를 위해 같은 이름이 있으면 (1), (2), ... 등이 생길 수 있도록 하자
+router.get("/readSelectedList/:uid/:title", (req, res) => {
+  let uid = req.params.uid;
+  let title = req.params.title;
+  let params = [uid, title];
 
   db((err, conn) => {
     if (err) {
       throw err;
     }
-    let sql = "SELECT * FROM user where num = ?";
-    conn.query(sql, uid, (err, rows) => {
+    let sql = "SELECT * FROM check_list where uid = ? and title = ?";
+    conn.query(sql, params, (err, rows) => {
       if (err) {
         throw err;
       }
       // console.log(JSON.stringify(rows));
       // console.log("what");
-      res.setHeader("Content-Type", "application/json");
-      res.end(JSON.stringify(rows[0]));
+      console.log(rows);
+      res.send(rows);
     });
   });
 });
 
+//생성된 체크리스트 저장
+/* INSERT INTO CHECKLIST VALUES (0, TITLE, TIME, THEME, ...) */
 router.post(
   "/addList/:title/:city/:start_date/:finish_date/:uid/:theme",
   (req, res) => {
@@ -66,13 +61,6 @@ router.post(
     let uid = req.params.uid;
     let theme = req.params.theme;
 
-    // let title = req.query.title;
-    // let city = req.query.city;
-    // let start_date = req.query.start_date;
-    // let finish_date = req.query.finish_date;
-    // let uid = req.query.uid;
-    // let theme = req.query.theme;
-
     let insertData = {
       num: 0,
       title: title,
@@ -80,7 +68,7 @@ router.post(
       start_date: start_date,
       finish_date: finish_date,
       uid: uid,
-      theme: theme
+      theme: theme,
     };
 
     db((err, conn) => {
@@ -98,8 +86,27 @@ router.post(
   }
 );
 
+//체크리스트 정보 수정
+/* UPDATE CHECKLIST SET ... = ? */
+//TODO: 근데 저희 체크리스트 정보는 수정이 안 되는 것 같은데요 ..? 우선 이건 보류합니당
 router.post("/updateSelectedList/", (req, res) => {});
 
-router.post("/deleteSelectedList/", (req, res) => {});
+//체크리스트 삭제
+/* DELETE * FROM CHECKLIST WHERE NUM = ? */
+router.post("/deleteSelectedList/:uid/:title", (req, res) => {
+  let uid = req.params.uid;
+  let title = req.params.title;
+  let params = [uid, title];
+
+  db((err, conn) => {
+    if (err) throw err;
+    let sql = "delete from check_list where uid = ? and title = ?";
+    conn.query(sql, params, (err, result) => {
+      if (err) throw err;
+      console.log(result);
+      res.send(result);
+    });
+  });
+});
 
 module.exports = router;

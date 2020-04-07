@@ -5,7 +5,7 @@ var logger = require("morgan");
 
 var indexRouter = require("./routes/index");
 var userRouter = require("./routes/user");
-var packRouter = require("./routes/checkListItem");
+var itemRouter = require("./routes/checkListItem");
 var listRouter = require("./routes/checkList");
 
 var app = express();
@@ -22,10 +22,10 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/", indexRouter);
 app.use("/user", userRouter);
 //회원 관련 기능
-app.use("/pack", packRouter);
-//하나의 체크리스트 세분화된 기능
 app.use("/list", listRouter);
 //체크리스트의 목록 기능
+app.use("/item", itemRouter);
+//하나의 체크리스트 세분화된 기능
 
 app.use(function(req, res, next) {
   next(createError(404));
