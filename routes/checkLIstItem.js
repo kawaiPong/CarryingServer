@@ -25,12 +25,25 @@ router.get("/createCheckList/:theme", (req, res) => {
     sql = "SELECT * FROM PACK_LIST WHERE THEME = ?";
     conn.query(sql, theme, (err, rows) => {
       if (err) throw err;
+      result = rows;
+      console.log(rows);
+      res.send(rows);
+    });
+  });
+
+  db((err, conn) => {
+    if (err) throw err;
+    sql = "INSERT INTO check_list_item values (0, ";
+    conn.query(sql, theme, (err, rows) => {
+      if (err) throw err;
+      result = rows;
       console.log(rows);
       res.send(rows);
     });
   });
 });
 
+//생성된 체크리스트 및 수정된 체크리스트 저장
 router.post("/saveCheckListItem/:uid/:");
 
 // router.get("/getCheckListItems/:uid", (req, res) => {
@@ -69,4 +82,8 @@ router.post("/saveCheckListItem/:uid/:");
 //     });
 //   });
 // });
+
+router.post("/deleteCheckListItem/:num", (req, res) => {
+  
+})
 module.exports = router;

@@ -98,6 +98,10 @@ router.post("/deleteSelectedList/:uid/:title", (req, res) => {
   let title = req.params.title;
   let params = [uid, title];
 
+  //select해서 우선 지울 것의 번호를 가져옴
+  //이후 그 리스트 delete
+  //redirect를 통해 넘긴 리스트 번호를 이용하여 리스트 아이템까지 삭제
+
   db((err, conn) => {
     if (err) throw err;
     let sql = "delete from check_list where uid = ? and title = ?";
@@ -108,5 +112,7 @@ router.post("/deleteSelectedList/:uid/:title", (req, res) => {
     });
   });
 });
+// 여기에 한 번에 리스트와 그 안의 물품을 다 지우고 싶은데 그러면 이상하게 얽힘.
+//리스트 지우고 지운 리스트의 num 값을 받아와서 해당 num 값의 체크리스트 물품을 지워야함.
 
 module.exports = router;
