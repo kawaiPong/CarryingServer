@@ -44,7 +44,7 @@ router.post("/addUser/:uid/:nickname/:email/:password/:gender", (req, res) => {
     uid: uid,
     email: email,
     password: password,
-    gender: gender
+    gender: gender,
   };
 
   db((err, conn) => {
@@ -139,14 +139,15 @@ router.get("/existEmail/:email", (req, res) => {
   db((err, conn) => {
     if (err) throw err;
 
-    let sql = "select count(*) as count from user where email = ?";
+    let sql = "select * from user where email = ?";
     conn.query(sql, email, (err, result) => {
       if (err) throw err;
-      if (result[0].count > 0) {
-        res.send(JSON.stringify({ exist: true }));
-      } else {
-        res.send(JSON.stringify({ exist: false }));
-      }
+      res.send(result);
+      // if (result[0].count > 0) {
+      //   res.send(JSON.stringify({ exist: true }));
+      // } else {
+      //   res.send(JSON.stringify({ exist: false }));
+      // }
     });
   });
 });
