@@ -142,7 +142,9 @@ router.get("/existEmail/:email", (req, res) => {
     let sql = "select * from user where email = ?";
     conn.query(sql, email, (err, result) => {
       if (err) throw err;
+      console.log(result);
       res.send(result);
+
       // if (result[0].count > 0) {
       //   res.send(JSON.stringify({ exist: true }));
       // } else {
