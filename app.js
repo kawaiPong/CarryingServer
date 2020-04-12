@@ -27,7 +27,7 @@ app.use("/list", listRouter);
 app.use("/item", itemRouter);
 //하나의 체크리스트 세분화된 기능
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
