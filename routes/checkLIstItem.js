@@ -7,7 +7,7 @@ const router = express.Router();
 //체크리스트 저장
 /* INSERT INTO CHECKLISTITEM VALUES (0, NAME, THEME, ...) */
 //체크리스트 읽기
-/* SELECT NAME FROM CHECKLISTITEM WHERE NUM = ? */
+/* SELECT NAME, STATUS FROM CHECKLISTITEM WHERE NUM = ? */
 //TODO:불러온 상태로 편집할 때 -> 추가할 때, 삭제할 때
 /* 추가
    INSERT INTO */
