@@ -19,12 +19,6 @@ router.get("/readUser/:uid", (req, res) => {
         throw err;
       }
       console.log(JSON.parse(JSON.stringify(rows))[0]);
-      console.log(toString.call(JSON.stringify(rows)));
-      console.log(rows[0]);
-      console.log(this.toString.call(rows));
-      rows.forEach((element) => {
-        console.log(element);
-      });
       res.setHeader("Content-Type", "application/json");
       res.send(JSON.parse(JSON.stringify(rows))[0]);
     });
@@ -149,8 +143,8 @@ router.get("/existEmail/:email", (req, res) => {
     let sql = "select * from user where email = ?";
     conn.query(sql, email, (err, result) => {
       if (err) throw err;
-      console.log(result);
-      res.send(result);
+      console.log(JSON.parse(JSON.stringify(result))[0]);
+      res.send(JSON.parse(JSON.stringify(result))[0]);
       // if (result[0].count > 0) {
       //   res.send(JSON.stringify({ exist: true }));
       // } else {
