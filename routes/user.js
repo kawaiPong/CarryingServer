@@ -16,7 +16,7 @@ router.get("/readUser/:uid", (req, res) => {
       if (err) {
         throw err;
       }
-      console.log(JSON.stringify(rows));
+      console.log(JSON.stringify(rows)[0]);
       console.log(toString.call(JSON.stringify(rows)));
       console.log(rows[0]);
       console.log(this.toString.call(rows));
