@@ -17,7 +17,7 @@ router.get("/readUser/:uid", (req, res) => {
         throw err;
       }
       // console.log(JSON.stringify(rows));
-      // console.log("what");
+      console.log(rows[0]);
       res.setHeader("Content-Type", "application/json");
       res.send(rows[0]);
     });
@@ -144,7 +144,6 @@ router.get("/existEmail/:email", (req, res) => {
       if (err) throw err;
       console.log(result);
       res.send(result);
-
       // if (result[0].count > 0) {
       //   res.send(JSON.stringify({ exist: true }));
       // } else {
