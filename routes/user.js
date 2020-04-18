@@ -7,6 +7,8 @@ const router = express.Router();
 router.get("/readUser/:uid", (req, res) => {
   let uid = req.params.uid;
 
+  var userList = {};
+
   db((err, conn) => {
     if (err) {
       throw err;
@@ -16,12 +18,15 @@ router.get("/readUser/:uid", (req, res) => {
       if (err) {
         throw err;
       }
-      console.log(JSON.stringify(rows)[0]);
+      console.log(JSON.parse(JSON.stringify(rows))[0]);
       console.log(toString.call(JSON.stringify(rows)));
       console.log(rows[0]);
       console.log(this.toString.call(rows));
+      rows.forEach((element) => {
+        console.log(element);
+      });
       res.setHeader("Content-Type", "application/json");
-      res.send(rows[0]);
+      res.send(JSON.parse(JSON.stringify(rows))[0]);
     });
   });
 });
