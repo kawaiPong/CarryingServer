@@ -58,7 +58,7 @@ router.post("/addUser/:uid/:nickname/:email/:password/:gender", (req, res) => {
         throw err;
       }
       console.log("insert success");
-      res.send(result); // 결과는 rows에 담아 전송
+      res.redirect("/readUser/" + uid); // 결과는 rows에 담아 전송
     });
   });
 });
@@ -143,6 +143,8 @@ router.get("/existEmail/:email", (req, res) => {
     let sql = "select * from user where email = ?";
     conn.query(sql, email, (err, result) => {
       if (err) throw err;
+      console.log(result);
+      console.log(result[0]);
       console.log(JSON.parse(JSON.stringify(result))[0]);
       res.send(JSON.parse(JSON.stringify(result))[0]);
       // if (result[0].count > 0) {
