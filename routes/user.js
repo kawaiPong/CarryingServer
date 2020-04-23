@@ -96,6 +96,7 @@ router.post(
   }
 );
 
+//비밀번호 수정
 router.post('/updatePassword/:uid/:password', (req, res) => {
   let uid = req.params.uid;
   let password = req.params.password;
