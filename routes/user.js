@@ -1,10 +1,10 @@
-const express = require("express");
-const db = require("../db/db");
+const express = require('express');
+const db = require('../db/db');
 
 const router = express.Router();
 
 //단 한 명의 사용자를 불러올 수 있음 (프로필)
-router.get("/readUser/:uid", (req, res) => {
+router.get('/readUser/:uid', (req, res) => {
   let uid = req.params.uid;
 
   var userList = {};
@@ -13,20 +13,20 @@ router.get("/readUser/:uid", (req, res) => {
     if (err) {
       throw err;
     }
-    let sql = "SELECT * FROM user where uid = ?";
+    let sql = 'SELECT * FROM user where uid = ?';
     conn.query(sql, uid, (err, rows) => {
       if (err) {
         throw err;
       }
       console.log(JSON.parse(JSON.stringify(rows))[0]);
-      res.setHeader("Content-Type", "application/json");
+      res.setHeader('Content-Type', 'application/json');
       res.send(JSON.parse(JSON.stringify(rows))[0]);
     });
   });
 });
 
 //사용자 추가 (회원 가입)
-router.post("/addUser/:uid/:nickname/:email/:password/:gender", (req, res) => {
+router.post('/addUser/:uid/:nickname/:email/:password/:gender', (req, res) => {
   let nickname = req.params.nickname;
   let uid = req.params.uid;
   let email = req.params.email;
@@ -52,20 +52,20 @@ router.post("/addUser/:uid/:nickname/:email/:password/:gender", (req, res) => {
     if (err) {
       throw err;
     }
-    let sql = "INSERT INTO user SET ?;";
+    let sql = 'INSERT INTO user SET ?;';
     conn.query(sql, insertData, (err, result) => {
       if (err) {
         throw err;
       }
-      console.log("insert success");
-      res.redirect("/readUser/" + uid); // 결과는 rows에 담아 전송
+      console.log('insert success');
+      res.redirect('/readUser/' + uid); // 결과는 rows에 담아 전송
     });
   });
 });
 
 //회원 수정 (회원 정보 수정 ) => 이때 중복 체크 확인
 router.post(
-  "/updateUser/:uid/:nickname/:email/:password/:gender",
+  '/updateUser/:uid/:nickname/:email/:password/:gender',
   (req, res) => {
     let uid = req.params.uid;
     let nickname = req.params.nickname;
@@ -78,7 +78,7 @@ router.post(
         throw err;
       }
       let sql =
-        "UPDATE user SET nickname = ?, email = ?, password = ?, gender = ? WHERE uid = ?";
+        'UPDATE user SET nickname = ?, email = ?, password = ?, gender = ? WHERE uid = ?';
       conn.query(
         sql,
         [nickname, email, password, gender, uid],
@@ -87,7 +87,7 @@ router.post(
             throw err;
           }
 
-          console.log("update success");
+          console.log('update success');
           // return res.json({ data: result }); // 결과는 rows에 담아 전송
           res.send(result);
         }
@@ -96,7 +96,7 @@ router.post(
   }
 );
 
-router.post("/updatePassword/:uid/:password", (req, res) => {
+router.post('/updatePassword/:uid/:password', (req, res) => {
   let uid = req.params.uid;
   let password = req.params.password;
 
@@ -104,28 +104,28 @@ router.post("/updatePassword/:uid/:password", (req, res) => {
     if (err) {
       throw err;
     }
-    let sql = "UPDATE user SET password = ? WHERE uid = ?";
+    let sql = 'UPDATE user SET password = ? WHERE uid = ?';
     conn.query(sql, [password, uid], (err, result) => {
       if (err) {
         throw err;
       }
-      console.log("updatePassword success");
+      console.log('updatePassword success');
       res.send(result);
     });
   });
 });
 
 //회원탈퇴
-router.post("/deleteUser/:uid", (req, res) => {
+router.post('/deleteUser/:uid', (req, res) => {
   let uid = req.params.uid;
 
   db((err, conn) => {
     if (err) throw err;
 
-    let sql = "DELETE FROM user WHERE uid = ?";
+    let sql = 'DELETE FROM user WHERE uid = ?';
     conn.query(sql, uid, (err, result) => {
       if (err) throw err;
-      console.log("delete success");
+      console.log('delete success');
       // return res.json({ data: result });
       res.send(result);
     });
@@ -134,17 +134,15 @@ router.post("/deleteUser/:uid", (req, res) => {
 
 //비밀번호 찾기 및 변경 Activity에서 이메일이 존재하는지 확인 여부를 묻는 버튼 클릭 시
 //반환값 : {"exist" : (true of false)}
-router.get("/existEmail/:email", (req, res) => {
+router.get('/existEmail/:email', (req, res) => {
   let email = req.params.email;
 
   db((err, conn) => {
     if (err) throw err;
 
-    let sql = "select * from user where email = ?";
+    let sql = 'select * from user where email = ?';
     conn.query(sql, email, (err, result) => {
       if (err) throw err;
-      console.log(result);
-      console.log(result[0]);
       console.log(JSON.parse(JSON.stringify(result))[0]);
       res.send(JSON.parse(JSON.stringify(result))[0]);
       // if (result[0].count > 0) {
