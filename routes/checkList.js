@@ -47,11 +47,11 @@ router.get('/readSelectedList/:uid/:title', (req, res) => {
 //생성된 체크리스트 저장
 /* INSERT INTO CHECKLIST VALUES (0, TITLE, TIME, THEME, ...) */
 router.post(
-  '/addList/:title/:city/:start_date/:finish_date/:uid/:theme',
+  '/addList/:city/:start_date/:finish_date/:uid/:theme',
   (req, res) => {
-    console.log(req.params);
+    console.log(req.params); 
 
-    let title = req.params.city; //TODO:이름 중복 방지를 위해 같은 이름이 있으면 (1), (2), ... 등이 생길 수 있도록 하자
+    // let title = req.params.city; //TODO:이름 중복 방지를 위해 같은 이름이 있으면 (1), (2), ... 등이 생길 수 있도록 하자
     let city = req.params.city;
     let start_date = req.params.start_date;
     let finish_date = req.params.finish_date;
@@ -60,7 +60,7 @@ router.post(
 
     let insertData = {
       num: 0,
-      title: title,
+      title: city,
       city: city,
       start_date: start_date,
       finish_date: finish_date,
