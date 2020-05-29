@@ -6,7 +6,7 @@ const dbConfig = {
   // multipleStatements: true,
   host: 'localhost',
   user: 'root',
-  password: '1234',
+  password: 'carrying',
   database: 'carrying',
 };
 
