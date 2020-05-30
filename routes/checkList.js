@@ -57,8 +57,12 @@ router.post(
     let finish_date = req.params.finish_date;
     let uid = req.params.uid;
     let theme = req.params.theme;
-    let gender = req.params.theme;
+    let gender = req.params.gender;
     let weather = req.params.weather;
+
+    console.log(theme);
+    console.log(gender);
+    console.log(weather);
 
     db((err, conn) => {
       if (err) {
@@ -82,10 +86,12 @@ router.post(
             throw err;
           }
           console.log(result);
-          //res.result(result);
-          //res.redirect('/readSelectedList/' + uid + '/');
         }
       );
+
+      console.log(theme);
+      console.log(gender);
+      console.log(weather);
 
       conn.query(sql2, (err, result) => {
         if (err) throw err;
