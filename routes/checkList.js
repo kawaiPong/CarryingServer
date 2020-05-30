@@ -47,7 +47,7 @@ router.get('/readSelectedList/:uid/:title', (req, res) => {
 //생성된 체크리스트 저장
 /* INSERT INTO CHECKLIST VALUES (0, TITLE, TIME, THEME, ...) */
 router.post(
-  '/addList/:city/:start_date/:finish_date/:uid/:theme',
+  '/addList/:city/:start_date/:finish_date/:uid/:gender/:theme/:weather',
   (req, res) => {
     console.log(req.params);
 
@@ -57,29 +57,68 @@ router.post(
     let finish_date = req.params.finish_date;
     let uid = req.params.uid;
     let theme = req.params.theme;
+    let gender = req.params.theme;
+    let weather = req.params.weather;
 
     db((err, conn) => {
       if (err) {
         throw err;
       }
 
-      let sql =
+      let sql1 =
         'INSERT INTO check_list ' +
         'values (0, CONCAT(?, "_", (' +
         'select count(num)+1 from (' +
         'select num from check_list where city = ? and uid = ?' +
         ') as t)), ?, ?, ?, ?, ?);';
+
+      let sql2 = 'select last_insert_id() as identify;';
+
       conn.query(
-        sql,
+        sql1,
         [city, city, uid, city, start_date, finish_date, uid, theme],
         (err, result) => {
           if (err) {
             throw err;
           }
-          res.send(result);
+          console.log(result);
+          //res.result(result);
+          //res.redirect('/readSelectedList/' + uid + '/');
         }
       );
+
+      conn.query(sql2, (err, result) => {
+        if (err) throw err;
+        console.log('number + ' + result[0].identify);
+        //res.send(result);
+        res.redirect(
+          '/item/createCheckList/' +
+            result[0].identify +
+            '/' +
+            theme +
+            '/' +
+            gender +
+            '/' +
+            weather
+        );
+      });
     });
+
+    // db((err, conn) => {
+    //   if (err) throw err;
+    //   let sql = 'select last_insert_id();';
+
+    //   conn.query(sql, (err, result) => {
+    //     if (err) {
+    //       throw err;
+    //     }
+    //     console.log(result);
+    //     res.send(result);
+    //     //res.redirect('/readSelectedList/' + uid + '/');
+    //   });
+    // redirect
+    // /createCheckList/:list_num/:theme/:gender/:weather
+    // });
   }
 );
 

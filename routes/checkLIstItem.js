@@ -9,36 +9,33 @@ const router = express.Router();
 /* UPDATE CHECKLISTITEM SET STATE = ? WHERE NUM = ?  */
 
 //DONE:생성 시 체크리스트의 테마에 맞게 물건 불러오고 저장
-router.post(
-  '/createCheckList/:list_num/:theme/:gender/:weather',
-  (req, res) => {
-    let listnum = req.params.list_num;
-    let theme = req.params.theme;
-    let gender = req.params.gender;
-    let weather = req.params.weather;
-    let sql;
+router.get('/createCheckList/:list_num/:theme/:gender/:weather', (req, res) => {
+  let listnum = req.params.list_num;
+  let theme = req.params.theme;
+  let gender = req.params.gender;
+  let weather = req.params.weather;
+  let sql;
 
-    //   if (theme.length != 0) {
-    //     const themeArr = theme.split(" ");
-    //   }
-    //   if (weather.length != 0) {
-    //     const weatherArr = weather.split(" ");
-    //   }
+  //   if (theme.length != 0) {
+  //     const themeArr = theme.split(" ");
+  //   }
+  //   if (weather.length != 0) {
+  //     const weatherArr = weather.split(" ");
+  //   }
 
-    db((err, conn) => {
+  db((err, conn) => {
+    if (err) throw err;
+    sql =
+      'insert into check_list_item select 0, name, false, ? from pack_list where theme = ? or gender = ? or weather = ?;'; //or gender = ? or weather or ? ;
+    conn.query(sql, [listnum, theme, gender, weather], (err, rows) => {
+      //gender, weather 포함
       if (err) throw err;
-      sql =
-        'insert into check_list_item select 0, name, false, ? from pack_list where theme = ? or gender = ? or weather = ?;'; //or gender = ? or weather or ? ;
-      conn.query(sql, [listnum, theme, gender, weather], (err, rows) => {
-        //gender, weather 포함
-        if (err) throw err;
-        result = rows;
-        console.log(rows);
-        res.send(rows);
-      });
+      result = rows;
+      console.log(rows);
+      res.send(rows);
     });
-  }
-);
+  });
+});
 
 router.get('/readCheckListItems/:uid/:checkListNum', (req, res) => {
   let uid = req.params.uid;

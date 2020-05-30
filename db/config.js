@@ -8,6 +8,7 @@ const dbConfig = {
   // user: 'root',
   // password: '1234',
   // database: 'carrying',
+  // multipleStatements: true,
 };
 
 module.exports = dbConfig;
