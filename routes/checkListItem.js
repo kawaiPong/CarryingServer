@@ -82,7 +82,7 @@ router.get('/createCheckList/:list_num/:theme/:gender/:weather', (req, res) => {
   db((err, conn) => {
     if (err) throw err;
     sql =
-      'insert into check_list_item select 0, name, false, ? from pack_list where theme = ? or gender = ? or weather = ?;'; //or gender = ? or weather or ? ;
+      'insert into check_list_item select 0, name, false, ? from pack_list where theme = ? or theme = 0 or gender = ? or gender = 0 or weather = ? or weather = 0;';
     conn.query(sql, [listnum, theme, gender, weather], (err, rows) => {
       //gender, weather 포함
       if (err) throw err;
@@ -139,5 +139,6 @@ router.post('/deleteCheckListItem/:list_num/:name', (req, res) => {
     });
   });
 });
+
 
 module.exports = router;
