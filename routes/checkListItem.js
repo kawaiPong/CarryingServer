@@ -94,16 +94,15 @@ router.get('/createCheckList/:list_num/:theme/:gender/:weather', (req, res) => {
 });
 
 router.get('/readCheckListItems/:list_num', (req, res) => {
-  let uid = req.params.uid;
-  let checkListNum = req.params.checkListNum;
+  let list_num = req.params.list_num;
 
   db((err, conn) => {
     if (err) throw err;
 
     let sql = 'select name, status from check_list_item where list_num = ?';
-    conn.query(sql, [uid, checkListNum], (err, result) => {
+    conn.query(sql, list_num, (err, result) => {
       if (err) throw err;
-      res.send(result[0]);
+      res.send(result);
     });
   });
 });
@@ -139,6 +138,5 @@ router.post('/deleteCheckListItem/:list_num/:name', (req, res) => {
     });
   });
 });
-
 
 module.exports = router;
