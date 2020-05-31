@@ -10,7 +10,7 @@ router.get('/readAllList/:uid', (req, res) => {
     if (err) {
       throw err;
     }
-    let sql = 'SELECT * FROM check_list where uid = ?';
+    let sql = "SELECT * FROM check_list where uid = '?'";
     conn.query(sql, uid, (err, rows) => {
       if (err) {
         throw err;

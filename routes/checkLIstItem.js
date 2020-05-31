@@ -9,6 +9,62 @@ const router = express.Router();
 /* UPDATE CHECKLISTITEM SET STATE = ? WHERE NUM = ?  */
 
 //DONE:생성 시 체크리스트의 테마에 맞게 물건 불러오고 저장
+
+router.get('/insert/:name/:theme/:gender/:weather', (req, res) => {
+  let name = req.params.name;
+  let theme = req.params.theme;
+  let gender = req.params.gender;
+  let weather = req.params.weather;
+
+  db((err, conn) => {
+    if (err) throw err;
+
+    let sql = 'insert into pack_list values (?, ?, ?, ?);';
+
+    conn.query(sql, [name, theme, gender, weather], (err, result) => {
+      if (err) throw err;
+
+      res.send(result);
+    });
+  });
+});
+
+router.get('/update/:name/:theme/:gender/:weather', (req, res) => {
+  let name = req.params.name;
+  let theme = req.params.theme;
+  let gender = req.params.gender;
+  let weather = req.params.weather;
+
+  db((err, conn) => {
+    if (err) throw err;
+
+    let sql =
+      'update pack_list set theme = ?, gender = ?, weather = ? where name = ?;';
+
+    conn.query(sql, [theme, gender, weather, name], (err, result) => {
+      if (err) throw err;
+
+      res.send(result);
+    });
+  });
+});
+
+router.get('/delete/:name', (req, res) => {
+  let name = req.params.name;
+
+  db((err, conn) => {
+    if (err) throw err;
+
+    let sql = 'delete from pack_list where name = ?;';
+
+    conn.query(sql, name, (err, result) => {
+      if (err) throw err;
+
+      res.send(result);
+    });
+  });
+});
+
 router.get('/createCheckList/:list_num/:theme/:gender/:weather', (req, res) => {
   let listnum = req.params.list_num;
   let theme = req.params.theme;
