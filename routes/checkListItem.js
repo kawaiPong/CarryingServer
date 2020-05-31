@@ -93,15 +93,14 @@ router.get('/createCheckList/:list_num/:theme/:gender/:weather', (req, res) => {
   });
 });
 
-router.get('/readCheckListItems/:uid/:checkListNum', (req, res) => {
+router.get('/readCheckListItems/:list_num', (req, res) => {
   let uid = req.params.uid;
   let checkListNum = req.params.checkListNum;
 
   db((err, conn) => {
     if (err) throw err;
 
-    let sql =
-      'select name, status from check_list_item where uid = ? and checkListNum = ?';
+    let sql = 'select name, status from check_list_item where list_num = ?';
     conn.query(sql, [uid, checkListNum], (err, result) => {
       if (err) throw err;
       res.send(result[0]);
