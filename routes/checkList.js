@@ -48,8 +48,6 @@ router.get('/readSelectedList/:uid/:title', (req, res) => {
 router.post(
   '/addList/:city/:start_date/:finish_date/:uid/:gender/:theme/:weather',
   (req, res) => {
-    console.log(req.params);
-
     // let title = req.params.city; //TODO:이름 중복 방지를 위해 같은 이름이 있으면 (1), (2), ... 등이 생길 수 있도록 하자
     let city = req.params.city;
     let start_date = req.params.start_date;
@@ -58,10 +56,6 @@ router.post(
     let theme = req.params.theme;
     let gender = req.params.gender;
     let weather = req.params.weather;
-
-    console.log(theme);
-    console.log(gender);
-    console.log(weather);
 
     db((err, conn) => {
       if (err) {
@@ -84,17 +78,11 @@ router.post(
           if (err) {
             throw err;
           }
-          console.log(result);
         }
       );
 
-      console.log(theme);
-      console.log(gender);
-      console.log(weather);
-
       conn.query(sql2, (err, result) => {
         if (err) throw err;
-        console.log('number + ' + result[0].identify);
         //res.send(result);
         res.redirect(
           '/item/createCheckList/' +
@@ -108,22 +96,6 @@ router.post(
         );
       });
     });
-
-    // db((err, conn) => {
-    //   if (err) throw err;
-    //   let sql = 'select last_insert_id();';
-
-    //   conn.query(sql, (err, result) => {
-    //     if (err) {
-    //       throw err;
-    //     }
-    //     console.log(result);
-    //     res.send(result);
-    //     //res.redirect('/readSelectedList/' + uid + '/');
-    //   });
-    // redirect
-    // /createCheckList/:list_num/:theme/:gender/:weather
-    // });
   }
 );
 
@@ -169,19 +141,37 @@ router.post(
 
 //체크리스트 삭제
 /* DELETE * FROM CHECKLIST WHERE NUM = ? */
-router.post('/deleteSelectedList/:uid/:title', (req, res) => {
-  let uid = req.params.uid;
-  let title = req.params.title;
-  let params = [uid, title];
+// router.post('/deleteSelectedList/:uid/:title', (req, res) => {
+//   let uid = req.params.uid;
+//   let title = req.params.title;
+//   let params = [uid, title];
+
+//   //select해서 우선 지울 것의 번호를 가져옴
+//   //이후 그 리스트 delete
+//   //redirect를 통해 넘긴 리스트 번호를 이용하여 리스트 아이템까지
+
+//   db((err, conn) => {
+//     if (err) throw err;
+//     let sql = 'delete from check_list where uid = ? and title = ?';
+//     conn.query(sql, params, (err, result) => {
+//       if (err) throw err;
+//       console.log(result);
+//       res.send(result);
+//     });
+//   });
+// });
+
+router.post('/deleteSelectedList/:num', (req, res) => {
+  let num = req.params.num;
 
   //select해서 우선 지울 것의 번호를 가져옴
   //이후 그 리스트 delete
-  //redirect를 통해 넘긴 리스트 번호를 이용하여 리스트 아이템까지 삭제
+  //redirect를 통해 넘긴 리스트 번호를 이용하여 리스트 아이템까지
 
   db((err, conn) => {
     if (err) throw err;
-    let sql = 'delete from check_list where uid = ? and title = ?';
-    conn.query(sql, params, (err, result) => {
+    let sql = 'delete from check_list where num = ?';
+    conn.query(sql, num, (err, result) => {
       if (err) throw err;
       console.log(result);
       res.send(result);

@@ -99,7 +99,8 @@ router.get('/readCheckListItems/:list_num', (req, res) => {
   db((err, conn) => {
     if (err) throw err;
 
-    let sql = 'select name, status from check_list_item where list_num = ?';
+    let sql =
+      'select check_num, name, status from check_list_item where list_num = ?';
     conn.query(sql, list_num, (err, result) => {
       if (err) throw err;
       res.send(result);
@@ -125,16 +126,32 @@ router.post('/addCheckListItem/:listNum/:name', (req, res) => {
 // check_list의 num에 check_list_item의 list_num을 외래키로 걸어
 // on delete cascade를 설정했기에 앞 check_list가 사라지면 해당 check_list_itme 레코드들도 다 삭제됨.
 //항목 삭제
-router.post('/deleteCheckListItem/:list_num/:name', (req, res) => {
-  let list_num = req.params.list_num;
-  let name = req.params.name;
+// router.post('/deleteCheckListItem/:list_num/:name', (req, res) => {
+//   let list_num = req.params.list_num;
+//   let name = req.params.name;
+
+//   db((err, conn) => {
+//     if (err) throw err;
+
+//     let sql =
+//       'delete from check_list_item where num = (select * from (select num from user where name = ? and list_num = ?) as t)';
+//     conn.query(sql, name, list_num, (err, result) => {
+//       if (err) throw err;
+//       console.log(result);
+//       res.send(result);
+//     });
+//   });
+// });
+
+router.post('/deleteCheckListItem/:check_num', (req, res) => {
+  let check_num = req.params.check_num;
 
   db((err, conn) => {
     if (err) throw err;
 
-    let sql =
-      'delete from check_list_item where num = (select * from (select num from user where name = ? and list_num = ?) as t)';
-    conn.query(sql, name, list_num, (err, result) => {
+    let sql = 'delete from check_list_item where check_num = ?';
+    // let sql = 'delete from check_list_item where check_num = (select * from (select num from user where name = ? and list_num = ?) as t)';
+    conn.query(sql, check_num, (err, result) => {
       if (err) throw err;
       console.log(result);
       res.send(result);
