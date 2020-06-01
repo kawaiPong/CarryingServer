@@ -125,6 +125,16 @@ router.post('/addCheckListItem/:listNum/:name', (req, res) => {
 
 router.post('/updateCheckListItem/:check_num', (req, res) => {
   let check_num = req.params.check_num;
+
+  db((err, conn) => {
+    if (err) throw err;
+
+    let sql = 'update check_list_item set status = !status where check_num = ?';
+    conn.query(sql, check_num, (err, result) => {
+      if (err) throw err;
+      res.send(result);
+    });
+  });
 });
 
 // check_list의 num에 check_list_item의 list_num을 외래키로 걸어
