@@ -126,12 +126,15 @@ router.post('/addCheckListItem/:listNum/:name', (req, res) => {
 // on delete cascade를 설정했기에 앞 check_list가 사라지면 해당 check_list_itme 레코드들도 다 삭제됨.
 //항목 삭제
 router.post('/deleteCheckListItem/:list_num/:name', (req, res) => {
+  let list_num = req.params.list_num;
+  let name = req.params.name;
+
   db((err, conn) => {
     if (err) throw err;
 
     let sql =
       'delete from check_list_item where num = (select * from (select num from user where name = ? and list_num = ?) as t)';
-    conn.query(sql, nickname, (err, result) => {
+    conn.query(sql, name, list_num, (err, result) => {
       if (err) throw err;
       console.log(result);
       res.send(result);
