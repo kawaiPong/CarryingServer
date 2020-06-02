@@ -7,8 +7,6 @@ const router = express.Router();
 router.get('/readUser/:uid', (req, res) => {
   let uid = req.params.uid;
 
-  var userList = {};
-
   db((err, conn) => {
     if (err) {
       throw err;
