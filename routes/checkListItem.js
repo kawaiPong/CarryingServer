@@ -115,8 +115,9 @@ router.post('/addCheckListItem/:listNum/:name', (req, res) => {
   });
 });
 
-router.post('/updateCheckListItem/:check_num', (req, res) => {
+router.post('/updateCheckListItem/:list_num/:check_num', (req, res) => {
   let check_num = req.params.check_num;
+  let list_num = req.params.list_num;
 
   db((err, conn) => {
     if (err) throw err;
@@ -124,7 +125,7 @@ router.post('/updateCheckListItem/:check_num', (req, res) => {
     let sql = 'update check_list_item set status = !status where check_num = ?';
     conn.query(sql, check_num, (err, result) => {
       if (err) throw err;
-      res.send(result);
+      res.redirect('/item/readCheckListItems/' + list_num);
     });
   });
 });
