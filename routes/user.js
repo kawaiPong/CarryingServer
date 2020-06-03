@@ -56,7 +56,7 @@ router.post('/addUser/:uid/:nickname/:email/:password/:gender', (req, res) => {
         throw err;
       }
       console.log('insert success');
-      res.redirect('/readUser/' + uid); // 결과는 rows에 담아 전송
+      res.redirect('/user/readUser/' + uid); // 결과는 rows에 담아 전송
     });
   });
 });
