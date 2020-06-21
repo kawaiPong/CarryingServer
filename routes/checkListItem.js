@@ -110,7 +110,8 @@ router.post('/addCheckListItem/:listNum/:name', (req, res) => {
     sql = 'INSERT INTO check_list_item values (0, ?, false, ?)';
     conn.query(sql, [name, listNum], (err, rows) => {
       if (err) throw err;
-      res.redirect('/item/readCheckListItems/' + listNum);
+      //res.redirect('/item/readCheckListItems/' + listNum);
+      res.send(result);
     });
   });
 });
