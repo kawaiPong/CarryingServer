@@ -1,5 +1,5 @@
 const dbConfig = {
-  host: 'ec2-3-34-124-202.ap-northeast-2.compute.amazonaws.com',
+  host: 'ec2-13-125-110-97.ap-northeast-2.compute.amazonaws.com',
   user: 'root',
   password: 'carrying',
   database: 'carrying',
