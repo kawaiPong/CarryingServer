@@ -17,6 +17,7 @@ router.get('/readUser/:uid', (req, res) => {
         throw err;
       }
       console.log(JSON.parse(JSON.stringify(rows))[0]);
+      
       res.setHeader('Content-Type', 'application/json');
       res.send(JSON.parse(JSON.stringify(rows))[0]);
     });
