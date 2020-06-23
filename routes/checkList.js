@@ -103,17 +103,16 @@ router.post(
 /* UPDATE CHECKLIST SET ... = ? */
 //TODO: 근데 저희 체크리스트 정보는 수정이 안 되는 것 같은데요 ..? 우선 이건 보류합니당
 router.post(
-  '/updateSelectedList/:num/:start_date/:finish_date/:theme/:season',
+  '/updateSelectedList/:num/:city/:start_date/:finish_date/:uid/:gender/:theme/:season',
   (req, res) => {
     console.log(req.params);
 
-    // let title = req.params.city; //TODO:이름 중복 방지를 위해 같은 이름이 있으면 (1), (2), ... 등이 생길 수 있도록 하자
     let num = req.params.num;
-    // let uid = req.params.uid;
-    // let city = req.params.city;
+    let city = req.params.city;
     let start_date = req.params.start_date;
     let finish_date = req.params.finish_date;
     let theme = req.params.theme;
+    let gender = req.params.gender;
     let season = req.params.season;
 
     db((err, conn) => {
@@ -122,11 +121,25 @@ router.post(
       }
 
       let sql =
-        'UPDATE check_list set ' +
-        'start_date = ?, finish_date = ?, theme = ? where num = ?;';
+        'update check_list set ' +
+        'title = CONCAT(?, "_", (select count(num)+1 from (' +
+        'select num from check_list where city = ? and uid = ?' +
+        ') as t))' +
+        ', city = ?, start_date = ?, finish_date = ?, gender = ?, theme = ?, season = ?) where num = ?;';
       conn.query(
         sql,
-        [start_date, finish_date, theme, season, num],
+        [
+          city,
+          city,
+          uid,
+          city,
+          start_date,
+          finish_date,
+          gender,
+          theme,
+          season,
+          num,
+        ],
         (err, result) => {
           if (err) {
             throw err;
