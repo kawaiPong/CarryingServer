@@ -111,8 +111,8 @@ router.post(
     let city = req.params.city;
     let start_date = req.params.start_date;
     let finish_date = req.params.finish_date;
+    let uid = req.params.uid;
     let theme = req.params.theme;
-    let gender = req.params.gender;
     let season = req.params.season;
 
     db((err, conn) => {
@@ -122,10 +122,12 @@ router.post(
 
       let sql =
         'update check_list set ' +
-        'title = CONCAT(?, "_", (select count(num)+1 from (' +
+        'title = concat(?, "_", (select count(num)+1 from (' +
         'select num from check_list where city = ? and uid = ?' +
         ') as t))' +
-        ', city = ?, start_date = ?, finish_date = ?, theme = ?, season = ?) where num = ?;';
+        ', city = ?, start_date = ?, finish_date = ?, theme = ?, season = ? where num = ?;';
+
+        console.log(sql);
       conn.query(
         sql,
         [city, city, uid, city, start_date, finish_date, theme, season, num],
@@ -133,6 +135,7 @@ router.post(
           if (err) {
             throw err;
           }
+          console.log(result);
           res.send(result);
         }
       );
