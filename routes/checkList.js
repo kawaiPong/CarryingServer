@@ -14,7 +14,6 @@ router.get('/readAllList/:uid', (req, res) => {
     conn.query(sql, uid, (err, rows) => {
       if (err) {
         throw err;
-        W;
       }
       res.send(rows);
     });
@@ -127,10 +126,10 @@ router.post(
         ') as t))' +
         ', city = ?, start_date = ?, finish_date = ?, theme = ?, season = ? where num = ?;';
 
-        console.log(sql);
+      console.log(sql);
       conn.query(
         sql,
-        [city, city, uid, city, start_date, finish_date, theme, season, num],
+        [city, city, uid, city, start_date, finish_date, theme, season, num], //
         (err, result) => {
           if (err) {
             throw err;
