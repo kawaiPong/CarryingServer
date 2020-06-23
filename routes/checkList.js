@@ -103,7 +103,7 @@ router.post(
 /* UPDATE CHECKLIST SET ... = ? */
 //TODO: 근데 저희 체크리스트 정보는 수정이 안 되는 것 같은데요 ..? 우선 이건 보류합니당
 router.post(
-  '/updateSelectedList/:num/:city/:start_date/:finish_date/:uid/:gender/:theme/:season',
+  '/updateSelectedList/:num/:city/:start_date/:finish_date/:uid/:theme/:season',
   (req, res) => {
     console.log(req.params);
 
@@ -125,21 +125,10 @@ router.post(
         'title = CONCAT(?, "_", (select count(num)+1 from (' +
         'select num from check_list where city = ? and uid = ?' +
         ') as t))' +
-        ', city = ?, start_date = ?, finish_date = ?, gender = ?, theme = ?, season = ?) where num = ?;';
+        ', city = ?, start_date = ?, finish_date = ?, theme = ?, season = ?) where num = ?;';
       conn.query(
         sql,
-        [
-          city,
-          city,
-          uid,
-          city,
-          start_date,
-          finish_date,
-          gender,
-          theme,
-          season,
-          num,
-        ],
+        [city, city, uid, city, start_date, finish_date, theme, season, num],
         (err, result) => {
           if (err) {
             throw err;
