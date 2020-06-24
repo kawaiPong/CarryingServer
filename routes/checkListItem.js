@@ -65,6 +65,8 @@ router.get('/delete/:name', (req, res) => {
   });
 });
 
+
+
 router.get('/createCheckList/:list_num/:theme/:gender/:season', (req, res) => {
   let listnum = req.params.list_num;
   let theme = req.params.theme;
@@ -146,6 +148,7 @@ router.post('/deleteCheckListItem/:check_num', (req, res) => {
     });
   });
 });
+
 
 // check_list의 num에 check_list_item의 list_num을 외래키로 걸어
 // on delete cascade를 설정했기에 앞 check_list가 사라지면 해당 check_list_itme 레코드들도 다 삭제됨.
