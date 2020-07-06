@@ -29,8 +29,9 @@ pool.on('release', function (connection) {
 
 const getConn = function (callback) {
   pool.getConnection(function (err, conn) {
+    console.log('db');
     callback(err, conn);
-    
+
     conn.release(); // 연결세션 반환.
   });
 };

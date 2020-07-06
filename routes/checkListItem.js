@@ -77,7 +77,7 @@ router.get('/createCheckList/:list_num/:theme/:gender/:season', (req, res) => {
   db((err, conn) => {
     if (err) throw err;
     sql =
-      'insert into check_list_item select 0, name, false, ? from pack_list where theme = ? or theme = 0 or gender = ? or gender = 0 or season = ? or season = 0;';
+      'insert into check_list_item select 0, name, false, ? from pack_list where theme = ? or theme = 0 or gender = ? or gender = 2 or season = ? or season = 0;';
     conn.query(sql, [listnum, theme, gender, season], (err, rows) => {
       if (err) throw err;
       result = rows;
