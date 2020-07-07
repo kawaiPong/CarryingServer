@@ -17,12 +17,39 @@ router.get('/readUser/:uid', (req, res) => {
         throw err;
       }
       console.log(JSON.parse(JSON.stringify(rows))[0]);
-      
+
       res.setHeader('Content-Type', 'application/json');
       res.send(JSON.parse(JSON.stringify(rows))[0]);
     });
   });
 });
+
+//사용자 추가 전 중복 체크
+router.post(
+  '/addUser/:uid/:nickname/:email/:password/:gender',
+  (req, res, next) => {
+    let uid = req.params.uid;
+
+    db((err, conn) => {
+      if (err) {
+        throw err;
+      }
+      let sql = 'SELECT uid, COUNT(uid) FROM user WHERE uid = ? GROUP BY uid;';
+      conn.query(sql, uid, (err, result) => {
+        if (err) {
+          throw err;
+        }
+
+        if (result.length > 0) {
+          console.log('중복 있음');
+          res.redirect('/user/readUser/' + uid); // 결과는 rows에 담아 전송
+        } else {
+          next();
+        }
+      });
+    });
+  }
+);
 
 //사용자 추가 (회원 가입)
 router.post('/addUser/:uid/:nickname/:email/:password/:gender', (req, res) => {
